@@ -1,19 +1,18 @@
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, request, jsonify, abort
+from models import db, Student
 
-db=SQLAlchemy()
+app=Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///students.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
-class Student(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullabe=False)
-    age = db.Column(db.Integer, nullabe=False)
-    mail = db.Column(db.String, nullabe=False)
-    major = db.Column(db.String,nullabe=False)
+db.init_app(app)
 
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'age':self.age,
-            'mail':self.mail,
-            'major':self.major
-        }
+def create_tables():
+    db.create_all()
+
+app.before_request(create_tables)
+
+@app.route('/students',methodes=['GET'])
+def get_students():
+    students=Student.query.all()
+    return jsonify([student.to_dict for student in students])
