@@ -1,0 +1,24 @@
+# Environnement virtuel
+venv/
+.env
+
+# Fichiers Python compilés
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Fichiers temporaires
+*.log
+*.tmp
+
+# Dossiers d’IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Autres
+instance/
+*.sqlite3
