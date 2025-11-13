@@ -12,6 +12,7 @@ def create_tables():
 
 app.before_request(create_tables)
 
+@app.route('/')
 @app.route('/students', methods=['GET'])
 def get_students():
     students = Student.query.all()
@@ -47,7 +48,7 @@ def create_student():
 @app.route('/students/<int:student_id>', methods=['PUT'])
 def update_student(student_id):
     try:
-        student = Student.query(student_id)
+        student = Student.query.get_or_404(student_id)
         if not request.json:
             abort(400)
         student.name=request.json.get('name',student.name)
@@ -61,6 +62,18 @@ def update_student(student_id):
         return jsonify({'error':'Student does not exist'}), 404
     
     return jsonify(student.to_dict()), 200
+
+@app.route('/students/<int:student_id>',methods=['DELETE'])
+def delete_student(student_id):
+    try:
+        student=Student.query.get_or_404(student_id)
+        db.session.delete(student)
+        db.session.commit()
+    except Exception as e:
+        print(e)
+        return jsonify({'error':'Student does not exist'}), 404
+    
+    return jsonify({'result':True,'message': f'Student {student_id} deleted'})
 
 
 if __name__=='__main__':
