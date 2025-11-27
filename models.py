@@ -4,8 +4,8 @@ db=SQLAlchemy()
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    pseudo = db.Column(db.String(30), nullable=False)
-    mail = db.Column(db.String(30), nullable=False)
+    pseudo = db.Column(db.String(30),unique=True, nullable=False)
+    mail = db.Column(db.String(30),unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
     role = db.Column(db.String(20), nullable=False)
 
@@ -20,11 +20,13 @@ class User(db.Model):
 
 class Post(db.Model):
     id=db.Column(db.Integer,primary_key=True)
-    score=db.column(db.integer,nullable=False)
+    user_id=db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False)
+    score=db.Column(db.Integer,nullable=False)
     message=db.Column(db.String(100),nullable=False)
     def to_dict(self):
         return {
             'id': self.id,
+            'user_id': self.user_id,
             'score': self.score,
             'message': self.message
         }
