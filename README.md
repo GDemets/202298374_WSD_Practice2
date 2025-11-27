@@ -21,3 +21,29 @@ It implements all CRUD operations: Create, Read, Update, Delete, with full error
 | score   | Integer     | Not Null              |
 | message | String(100) | Not Null              |
 
+## Endpoints
+### GET
+| Endpoint           | Description                    | Success | Error |
+| ------------------ | ------------------------------ | ------- | ----- |
+| `/users`           | Get all the users              | 200     | -     |
+| `/users/<user_id>` | Get an user by his id          | 200     | 404   |
+
+### POST
+| Endpoint                 | Description                      | Success | Error     |
+| ------------------------ | -------------------------------- | ------- | ----------|
+| `/users`                 | Create a new user                | 201     | 400, 409  |
+| `/users/<user_id>/posts` | Create a new post                | 201     | 400, 404  |
+
+### PUT
+| Endpoint                  | Description        | Success | Error         |
+| ------------------------- | ------------------ | ------- | --------------|
+| `/users/mail/<user_id>`   | Update mail user   | 200     | 400, 404      |
+| `/users/pseudo/<user_id>` | Update pseudo user | 200     | 400, 404, 409 |
+
+### DELETE
+| Endpoint           | Description          | Success | Error    |
+| ------------------ | -------------------- | ------- | ---------|
+| `/users/<user_id>` | Delets a user        | 200     | 404      |
+| `/users`           | Delete all the users | 200     | 404, 500 |
+
+
