@@ -2,35 +2,29 @@ from flask_sqlalchemy import SQLAlchemy
 
 db=SQLAlchemy()
 
-class Student(db.Model):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(30), nullable=False)
-    student_number = db.Column(db.String(20), unique=True, nullable=False)
+    pseudo = db.Column(db.String(30), nullable=False)
     mail = db.Column(db.String(30), nullable=False)
-    major = db.Column(db.String(20), nullable=False)
-    grade=db.relationship('Grade', backref='student', lazy=True)
+    password = db.Column(db.String(100), nullable=False)
+    role = db.Column(db.String(20), nullable=False)
 
     def to_dict(self):
         return {
             'id': self.id,
-            'name': self.name,
-            'student_number':self.student_number,
-            'mail':self.mail,
-            'major':self.major
+            'pseudo': self.pseudo,
+            'mail': self.mail,
+            'password': self.password,
+            'role': self.role
         }
 
-class Grade(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    matter = db.Column(db.String(30), nullable=False)
-    average = db.Column(db.Integer, nullable=False)
-    comment = db.Column(db.String(30), nullable=False)
-    student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False)
-
+class Post(db.Model):
+    id=db.Column(db.Integer,primary_key=True)
+    score=db.column(db.integer,nullable=False)
+    message=db.Column(db.String(100),nullable=False)
     def to_dict(self):
         return {
             'id': self.id,
-            'matter': self.matter,
-            'average':self.average,
-            'comment': self.comment,
-            'student_id':self.student_id
+            'score': self.score,
+            'message': self.message
         }
