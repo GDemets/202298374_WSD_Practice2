@@ -120,5 +120,29 @@ def delete_user(user_id):
                     'message':'User successfully deleted'
                    }), 200
 
+@app.route('/users', methods=['DELETE'])
+def delete_all_users():
+    """Delete all users"""
+    if len(User.query.all()) == 0:
+        return jsonify({
+            'status': 'error',
+            'message': 'No users to delete'
+        }), 404
+    try:
+        User.query.delete()
+        db.session.commit()
+    except Exception as e:
+        print(e)
+        return jsonify({
+            'status': 'error',
+            'message': 'An error occurred while deleting users'
+        }), 500
+
+    return jsonify({
+        'status': 'success',
+        'message': 'All users successfully deleted'
+    }), 200
+
+
 if __name__=='__main__':
     app.run(debug=True)
